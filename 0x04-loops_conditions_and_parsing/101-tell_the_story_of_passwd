@@ -3,9 +3,9 @@
 
 while IFS=: read -r username _ uid gid _ home shell
 do
-    group=$(getent group "$gid" | cut -d ':' -f 1)
+    userinfo=$(grep "^${uid}:" /etc/passwd)
+    password=$(echo "$userinfo" | cut -d: -f2)
+    useridinfo=$(echo "$userinfo" | cut -d: -f5)
 
-    password="x"
-
-    echo "The user $username is part of the $gid gang, lives in $home and rides $shell. $uid's place is protected by the passcode $password, more info about the user here: $username"
+    echo "The user $username is part of the $gid gang, lives in $home and rides $shell. $uid's place is protected by the passcode $password, more info about the user here: $useridinfo"
 done < /etc/passwd
