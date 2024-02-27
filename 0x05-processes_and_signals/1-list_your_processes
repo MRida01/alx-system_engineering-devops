@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # Display a list of currently running processes with hierarchy in a user-oriented format
 
-printf "%-9s %-20s %-10s %-10s %s\n" "USER" "PID" "%CPU" "%MEM" "COMMAND"
+echo "USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND"
 
-ps axo user,pid,%cpu,%mem,comm --forest --headers | head -50
+ps axo user,pid,%cpu,%mem,vsz,rss,tty,stat,start,time,command --forest | \
+awk 'NR>1 {printf "%-10s %5d %4.1f %4.1f %8d %8d %-9s %4s %s %s %s\n", $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11}'
