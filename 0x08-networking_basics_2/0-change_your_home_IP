@@ -6,9 +6,11 @@ if [ "$(id -u)" != "0" ]; then
     exit 1
 fi
 
-sed -i 's/127.0.0.1 localhost/127.0.0.2 localhost/' /etc/hosts
-sed -i 's/^8\.8\.8\.8.*$/8.8.8.8 facebook.com/' /etc/hosts
+# Update /etc/hosts file
+sed -i 's/^127\.0\.0\.1[[:space:]]*localhost$/127.0.0.2 localhost/' /etc/hosts
+sed -i 's/^.*\bfacebook\.com\b.*$/8.8.8.8 facebook.com/' /etc/hosts
 
+# Flush DNS cache
 if [ -x "$(command -v systemctl)" ]; then
     systemctl restart systemd-resolved
 elif [ -x "$(command -v service)" ]; then
